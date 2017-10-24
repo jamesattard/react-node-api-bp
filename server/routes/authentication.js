@@ -20,7 +20,7 @@ function tokenForUser(user) {
 
 // Handle a protected route
 router.get('/', requireAuth, function(req, res){
-  res.send({hi: 'there'});
+  res.send({message: 'Super secret code is ABC123'});
 });
 
 // Handle signin
