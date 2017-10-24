@@ -1,26 +1,51 @@
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import { signinUser } from '../../actions';
 
 class Signin extends Component {
   handleFormSubmit({ email, password }) {
     console.log(email, password);
     // Need to do something to log user in
+    this.props.signinUser({ email, password });
+  }
+
+  renderField(field) {
+    //const { meta } = field // this is a destructure technique. meta === field.meta. helps us clean the line below
+    const { meta: {touched, error} } = field // nested destructuring. field.meta === meta..also field.meta.touched === touched, and so on.
+    const className = `form-group ${touched && error ? 'has-danger' : ''}`
+
+    return (
+      <div className={className}>
+        <label>{field.label}</label>
+        <input
+          className="form-control"
+          type="text"
+          {...field.input}
+        />
+        <div className="text-help">
+          {touched ? error : ''}
+        </div>
+      </div>
+    );
   }
 
   render() {
-    const { handleSubmit, fields: { email, password }} = this.props;
+    const { handleSubmit } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <fieldset className="form-group">
-          <label>Email:</label>
-          <input {...email} className="form-control" />
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Password:</label>
-          <input {...password} className="form-control" />
-        </fieldset>
-        <button action="submit" className="btn btn-primary">Sign in</button>
+        <Field
+          name="email"
+          label="Email"
+          component={this.renderField}
+        />
+        <Field
+          name="password"
+          label="Password"
+          component={this.renderField}
+        />
+        <button type="submit" className="btn btn-primary">Sign In</button>
       </form>
     );
   }
@@ -29,4 +54,6 @@ class Signin extends Component {
 export default reduxForm({
   form: 'signin',
   fields: ['email', 'password']
-})(Signin);
+})(
+  connect(null, { signinUser })(Signin)
+);
