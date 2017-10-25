@@ -1,5 +1,6 @@
 import {
   AUTH_USER, 
+  UNAUTH_USER,
   AUTH_ERROR
 } from './types';
 
@@ -9,7 +10,7 @@ const ROOT_URL = 'http://localhost:3090';
 
 // This action creator has a callback so we can use Router history
 // from the Signin component
-export function signinUser({ email, password }, callback) {
+export const signinUser = ({ email, password }, callback) => {
   return function(dispatch) {
     // Submit email/password to the server
     // from ES6 format: { email: email, password: password }
@@ -33,12 +34,10 @@ export function signinUser({ email, password }, callback) {
   }
 }
 
-// export function authError(error) {
-//   return {
-//     type: AUTH_ERROR,
-//     payload: error
-//   }
-// }
+export const signoutUser = () => {
+  localStorage.removeItem('token');
+  return { type: UNAUTH_USER };
+}
 
 export const authError = error => {
   return {
