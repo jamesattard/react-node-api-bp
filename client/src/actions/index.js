@@ -1,6 +1,6 @@
 import {
   AUTH_USER, 
-  UNAUTH_USER
+  AUTH_ERROR
 } from './types';
 
 import axios from 'axios';
@@ -28,6 +28,14 @@ export function signinUser({ email, password }, callback) {
       // If request is bad...
       .catch(() => {
         // - Show an error to the user
+        dispatch(authError('Bad Login Info'));
       });
+  }
+}
+
+export function authError(error) {
+  return {
+    type: AUTH_ERROR,
+    payload: error
   }
 }

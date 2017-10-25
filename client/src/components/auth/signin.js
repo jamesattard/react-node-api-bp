@@ -6,6 +6,7 @@ import { signinUser } from '../../actions';
 class Signin extends Component {
   handleFormSubmit({ email, password }) {
     // Need to do something to log user in
+    console.log(email, password);
     this.props.signinUser({ email, password }, () => {
       this.props.history.push('/feature');
     });
@@ -13,15 +14,15 @@ class Signin extends Component {
 
   renderField(field) {
     //const { meta } = field // this is a destructure technique. meta === field.meta. helps us clean the line below
-    const { meta: {touched, error} } = field // nested destructuring. field.meta === meta..also field.meta.touched === touched, and so on.
+    const { label, type, meta: {touched, error} } = field // nested destructuring. field.meta === meta..also field.meta.touched === touched, and so on.
     const className = `form-group ${touched && error ? 'has-danger' : ''}`
 
     return (
       <div className={className}>
-        <label>{field.label}</label>
+        <label>{label}</label>
         <input
           className="form-control"
-          type="text"
+          type={type}
           {...field.input}
         />
         <div className="text-help">
@@ -29,6 +30,16 @@ class Signin extends Component {
         </div>
       </div>
     );
+  }
+
+  renderAlert() {
+    if (this.props.errorMessage) {
+      return (
+        <div className="alert alert-danger">
+          <strong>Oops!</strong> {this.props.errorMessage}
+        </div>
+      );
+    }
   }
 
   render() {
@@ -40,21 +51,29 @@ class Signin extends Component {
           name="email"
           label="Email"
           component={this.renderField}
+          type="text"
         />
         <Field
           name="password"
           label="Password"
           component={this.renderField}
+          type="password"
         />
+        {this.renderAlert()}
         <button type="submit" className="btn btn-primary">Sign In</button>
       </form>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    errorMessage: state.auth.error
+  }
+}
+
+Signin = connect(mapStateToProps, { signinUser })(Signin)
+
 export default reduxForm({
-  form: 'signin',
-  fields: ['email', 'password']
-})(
-  connect(null, { signinUser })(Signin)
-);
+  form: 'signin'
+})(Signin);
