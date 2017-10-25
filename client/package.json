@@ -27,6 +27,7 @@
   "dependencies": {
     "axios": "^0.17.0",
     "babel-preset-stage-1": "^6.1.18",
+    "cors": "^2.8.4",
     "lodash": "^3.10.1",
     "react": "^0.14.9",
     "react-addons-test-utils": "^0.14.8",

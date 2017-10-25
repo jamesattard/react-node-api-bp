@@ -5,9 +5,10 @@ import { signinUser } from '../../actions';
 
 class Signin extends Component {
   handleFormSubmit({ email, password }) {
-    console.log(email, password);
     // Need to do something to log user in
-    this.props.signinUser({ email, password });
+    this.props.signinUser({ email, password }, () => {
+      this.props.history.push('/feature');
+    });
   }
 
   renderField(field) {
