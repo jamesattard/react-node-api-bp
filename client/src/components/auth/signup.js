@@ -5,8 +5,7 @@ import { signupUser } from '../../actions';
 
 class Signup extends Component {
   handleFormSubmit({ email, password }) {
-    // Need to do something to log user in
-    // console.log(email, password);
+    // Call action creator to sign up the user!
     this.props.signupUser({ email, password }, () => {
       this.props.history.push('/feature');
     });

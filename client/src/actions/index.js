@@ -34,6 +34,30 @@ export const signinUser = ({ email, password }, callback) => {
   }
 }
 
+export const signupUser = ({ email, password }, callback) => {
+  return function(dispatch) {
+    // Submit email/password to the server
+    // from ES6 format: { email: email, password: password }
+    axios.post(`${ROOT_URL}/signup`, { email, password })
+
+      // If request is good...
+      .then(response => {
+        // - Update state to indicate user is authenticated
+        dispatch({ type: AUTH_USER });
+        // - Save the JWT token for future requests
+        localStorage.setItem('token', response.data.token);
+        // - Redirect to the route '/feature'
+        callback();
+      })
+
+      // If request is bad...
+      .catch(() => {
+        // - Show an error to the user
+        dispatch(authError('Cannot sign you up!'));
+      });
+  }
+}
+
 export const signoutUser = () => {
   localStorage.removeItem('token');
   return { type: UNAUTH_USER };
