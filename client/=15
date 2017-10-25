@@ -1,9 +1,0 @@
-history@4.7.2 node_modules/react-router-dom/node_modules/history -> node_modules/history
-- core-js@1.2.7 node_modules/prop-types/node_modules/core-js
-- object-assign@4.1.1 node_modules/prop-types/node_modules/object-assign
-- fbjs@0.8.16 node_modules/prop-types/node_modules/fbjs
-whatwg-fetch@2.0.3 node_modules/isomorphic-fetch/node_modules/whatwg-fetch -> node_modules/whatwg-fetch
-ReduxBoilerPlate@1.0.0 /Users/james/code/reactjs/react-node-auth/client
-├── node-pre-gyp@0.6.36 
-└── UNMET PEER DEPENDENCY react@16.0.0
-
