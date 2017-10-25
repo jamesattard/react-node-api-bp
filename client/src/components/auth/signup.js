@@ -6,7 +6,7 @@ import { signupUser } from '../../actions';
 class Signup extends Component {
   handleFormSubmit({ email, password }) {
     // Need to do something to log user in
-    console.log(email, password);
+    // console.log(email, password);
     this.props.signupUser({ email, password }, () => {
       this.props.history.push('/feature');
     });
@@ -87,6 +87,9 @@ const validate = (values) => {
   if (!values.password) {
     errors.password = "Password cannot be blank!";
   }
+  if (values.password && values.password.length < 4) {
+    errors.password = "Password cannot be smaller than 4 characters!";
+  }
   if (!values.passwordConfirm) {
     errors.passwordConfirm = "Password cannot be blank!";
   }
@@ -107,6 +110,6 @@ const mapStateToProps = state => {
 Signup = connect(mapStateToProps, { signupUser })(Signup)
 
 export default reduxForm({
-  validate,
+  validate, // shortened from 'validate: validate'
   form: 'signup'
 })(Signup);
