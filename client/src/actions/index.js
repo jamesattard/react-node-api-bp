@@ -33,7 +33,14 @@ export function signinUser({ email, password }, callback) {
   }
 }
 
-export function authError(error) {
+// export function authError(error) {
+//   return {
+//     type: AUTH_ERROR,
+//     payload: error
+//   }
+// }
+
+export const authError = error => {
   return {
     type: AUTH_ERROR,
     payload: error
