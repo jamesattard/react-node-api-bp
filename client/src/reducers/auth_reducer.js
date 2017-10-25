@@ -4,7 +4,7 @@ import {
   AUTH_ERROR
 } from '../actions/types';
 
-export default function(state = {}, action) {
+export const authReducer = (state = {}, action) => {
   switch(action.type) {
     case AUTH_USER: // user authenticated
       return { ...state, authenticated: true };
@@ -13,6 +13,7 @@ export default function(state = {}, action) {
     case AUTH_ERROR: // some form of error was generated
       return { ...state, error: action.payload };
   }
-
   return state;
 }
+
+export default authReducer
