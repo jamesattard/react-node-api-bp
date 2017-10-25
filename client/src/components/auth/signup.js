@@ -72,6 +72,32 @@ class Signup extends Component {
   }
 }
 
+const validate = (values) => {
+  const errors = {};
+
+  const validateEmail = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+  
+  // Validate the inputs from 'values'
+  if (!values.email || !validateEmail(values.email)) {
+    errors.email = "Enter a valid email!";
+  }
+  if (!values.password) {
+    errors.password = "Password cannot be blank!";
+  }
+  if (!values.passwordConfirm) {
+    errors.passwordConfirm = "Password cannot be blank!";
+  }
+  if (values.password != values.passwordConfirm) {
+    errors.passwordConfirm = "Passwords do not match!";
+  }
+  // If errors is empty, the form is fine to submit
+  // If errors has any properties, redux-form assumes form is invalid
+  return errors;
+}
+
 const mapStateToProps = state => {
   return {
     errorMessage: state.auth.error
@@ -81,5 +107,6 @@ const mapStateToProps = state => {
 Signup = connect(mapStateToProps, { signupUser })(Signup)
 
 export default reduxForm({
+  validate,
   form: 'signup'
 })(Signup);
