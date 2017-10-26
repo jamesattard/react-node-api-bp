@@ -39,5 +39,5 @@ ReactDOM.render(
       </div>
     </Router>
   </Provider>
-  , document.querySelector('.container')
+  , document.getElementById('root')
 );

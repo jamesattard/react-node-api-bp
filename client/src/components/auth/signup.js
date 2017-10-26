@@ -93,6 +93,7 @@ const validate = (values) => {
   const errors = {};
 
   const validateEmail = (email) => {
+    // eslint-disable-next-line
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
@@ -110,7 +111,7 @@ const validate = (values) => {
   if (!values.passwordConfirm) {
     errors.passwordConfirm = "Password cannot be blank!";
   }
-  if (values.password != values.passwordConfirm) {
+  if (values.password !== values.passwordConfirm) {
     errors.passwordConfirm = "Passwords do not match!";
   }
   // If errors is empty, the form is fine to submit
