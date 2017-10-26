@@ -11,8 +11,9 @@ import Signin from './components/auth/signin';
 import Signout from './components/auth/signout';
 import Signup from './components/auth/signup';
 import Feature from './components/feature';
-import reducers from './reducers';
+import { PrivateRoute } from './components/auth/require_auth'
 
+import reducers from './reducers';
 import { AUTH_USER } from './actions/types'
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
@@ -33,7 +34,7 @@ ReactDOM.render(
           <Route path="/signin" component={Signin} />
           <Route path="/signout" component={Signout} />
           <Route path="/signup" component={Signup} />
-          <Route path="/feature" component={Feature} />
+          <PrivateRoute path="/feature" component={Feature} />
         </Switch>
       </div>
     </Router>

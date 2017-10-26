@@ -4,6 +4,17 @@ import { Field, reduxForm } from 'redux-form';
 import { signupUser, authError } from '../../actions';
 
 class Signup extends Component {
+  componentWillMount() {
+    // do not show signup form if already authenticated
+    if (this.props.authenticated) {
+      this.props.history.push('/feature')
+      // Here I am using the history technique just to
+      // illustrate another way of navigating.
+      // I personally prefer the redirect technique as
+      // used in signin.js
+    }
+  }
+
   componentWillUnmount() {
     // Clear any signup errors otherwise they will propagate to
     // the other redux-form components
@@ -18,7 +29,7 @@ class Signup extends Component {
     });
   }
 
-  renderField(field) {
+  displayField(field) {
     //const { meta } = field // this is a destructure technique. meta === field.meta. helps us clean the line below
     const { label, type, meta: {touched, error} } = field // nested destructuring. field.meta === meta..also field.meta.touched === touched, and so on.
     const className = `form-group ${touched && error ? 'has-danger' : ''}`
@@ -38,7 +49,7 @@ class Signup extends Component {
     );
   }
 
-  renderAlert() {
+  displayAlert() {
     if (this.props.errorMessage) {
       return (
         <div className="alert alert-danger">
@@ -56,22 +67,22 @@ class Signup extends Component {
         <Field
           name="email"
           label="Email"
-          component={this.renderField}
+          component={this.displayField}
           type="text"
         />
         <Field
           name="password"
           label="Password"
-          component={this.renderField}
+          component={this.displayField}
           type="password"
         />
         <Field
           name="passwordConfirm"
           label="Confirm Password"
-          component={this.renderField}
+          component={this.displayField}
           type="password"
         />
-        {this.renderAlert()}
+        {this.displayAlert()}
         <button type="submit" className="btn btn-primary">Sign Up</button>
       </form>
     );
@@ -109,7 +120,8 @@ const validate = (values) => {
 
 const mapStateToProps = state => {
   return {
-    errorMessage: state.auth.error
+    errorMessage: state.auth.error,
+    authenticated: state.auth.authenticated    
   }
 }
 
