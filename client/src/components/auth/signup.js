@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { signupUser } from '../../actions';
+import { signupUser, authError } from '../../actions';
 
 class Signup extends Component {
+  componentWillUnmount() {
+    // Clear any signup errors otherwise they will propagate to
+    // the other redux-form components
+    if (this.props.errorMessage) {
+      this.props.authError(null)
+    }
+  }
+
   handleFormSubmit({ email, password }) {
-    // Call action creator to sign up the user!
     this.props.signupUser({ email, password }, () => {
       this.props.history.push('/feature');
     });
@@ -106,7 +113,7 @@ const mapStateToProps = state => {
   }
 }
 
-Signup = connect(mapStateToProps, { signupUser })(Signup)
+Signup = connect(mapStateToProps, { signupUser, authError })(Signup)
 
 export default reduxForm({
   validate, // shortened from 'validate: validate'

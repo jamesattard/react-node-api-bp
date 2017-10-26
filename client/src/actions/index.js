@@ -42,7 +42,7 @@ export const signupUser = ({ email, password }, callback) => {
 
       // If request is good...
       .then(response => {
-        // - Update state to indicate user is authenticated
+        // - Update state to indicate user is signed up and authenticated
         dispatch({ type: AUTH_USER });
         // - Save the JWT token for future requests
         localStorage.setItem('token', response.data.token);
