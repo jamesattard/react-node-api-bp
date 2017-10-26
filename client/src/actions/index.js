@@ -1,7 +1,8 @@
 import {
   AUTH_USER, 
   UNAUTH_USER,
-  AUTH_ERROR
+  AUTH_ERROR,
+  FETCH_MESSAGE
 } from './types';
 
 import axios from 'axios';
@@ -27,9 +28,9 @@ export const signinUser = ({ email, password }, callback) => {
       })
 
       // If request is bad...
-      .catch(() => {
+      .catch(error => {
         // - Show an error to the user
-        dispatch(authError('Bad Login Info'));
+        dispatch(authError('Cannot sign in!'));
       });
   }
 }
@@ -51,9 +52,9 @@ export const signupUser = ({ email, password }, callback) => {
       })
 
       // If request is bad...
-      .catch(() => {
+      .catch(error => {
         // - Show an error to the user
-        dispatch(authError('Cannot sign you up!'));
+        dispatch(authError(error.response.data.error));
       });
   }
 }
@@ -61,6 +62,25 @@ export const signupUser = ({ email, password }, callback) => {
 export const signoutUser = () => {
   localStorage.removeItem('token');
   return { type: UNAUTH_USER };
+}
+
+export const fetchMessage = () => {
+  return function(dispatch) {
+    axios.get(ROOT_URL, {
+      headers: { authorization: localStorage.getItem('token') }
+    })
+      .then(response => {
+        dispatch({
+          type: FETCH_MESSAGE,
+          payload: response.data.message
+        });
+      })
+
+      .catch(error => {
+        // - Show an error to the user
+        dispatch(authError('Cannot fetch data'));
+      });
+  }
 }
 
 export const authError = error => {
